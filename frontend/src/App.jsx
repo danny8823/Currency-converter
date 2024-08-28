@@ -23,6 +23,15 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // * HTTP REQUEST
+    try{
+      const response = await axios.post('http://localhost:4000/api/convert', formData)
+      setResult(response?.data)
+      console.log(response)
+      setError("")
+    }catch(error){
+      setError('Error', error?.response ? error?.response?.data: error?.message)
+    }
   };
 
   return (

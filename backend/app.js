@@ -2,7 +2,8 @@ const express = require('express')
 require('dotenv').config()
 const PORT = process.env.PORT || 4000;
 const app = express();
-const axios = require('axios')
+const axios = require('axios');
+const cors = require('cors')
 const rateLimit = require('express-rate-limit')
 const API_KEY = process.env.API_KEY
 const API_URL = `https://v6.exchangerate-api.com/v6/`
@@ -12,10 +13,14 @@ const apiLimiter = rateLimit({
     max: 100 
 })
 
+// ! == CORS OPTIONS ==
+const corsOptions = {
+    origin: ['http://localhost:5173']
+}
 // ! == MIDDLEWARES ==
 app.use(express.json())
 app.use(apiLimiter)
-
+app.use(cors(corsOptions))
 // ! == CONVERSION ==
 app.post('/api/convert', async(req,res) => {
     // * GET THE USER DATA
